@@ -181,6 +181,10 @@ mlx/
 - [trevin-creator/autoresearch-mlx](https://github.com/trevin-creator/autoresearch-mlx) (MacOS)
 - [jsegov/autoresearch-win-rtx](https://github.com/jsegov/autoresearch-win-rtx) (Windows)
 
+## 贡献者
+
+- [zhangshengtao](https://github.com/comaple) - 主要贡献者（MLX/MPS 支持、ml/ 工具包、OpenCode Skill）
+
 ## 许可证
 
 MIT
