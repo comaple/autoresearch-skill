@@ -20,6 +20,8 @@
 
 ## 快速开始
 
+### NVIDIA GPU (CUDA)
+
 **要求：** 单张 NVIDIA GPU（已在 H100 上测试）、Python 3.10+、[uv](https://docs.astral.sh/uv/)。
 
 ```bash
@@ -35,6 +37,36 @@ uv run prepare.py
 
 # 4. 手动运行单个训练实验（约 5 分钟）
 uv run train.py
+```
+
+### Apple Silicon (MLX)
+
+**要求：** Apple Silicon Mac (M1/M2/M3)、Python 3.10+、[uv](https://docs.astral.sh/uv/)。
+
+```bash
+
+# 1. 安装 uv 项目管理器（如果没有的话）
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. 安装 MLX
+pip install mlx
+
+# 3. 安装依赖
+uv sync
+
+# 4. 下载数据并训练 tokenizer（一次性，约 2 分钟）
+uv run prepare.py
+
+# 5. 使用 MLX 运行训练（约 5 分钟）
+python mlx_train.py
+```
+
+### Apple Silicon (MPS)
+
+也可以使用 PyTorch 的 MPS 后端：
+
+```bash
+uv run train.py  # 自动检测并使用 MPS
 ```
 
 如果以上命令都能正常工作，说明你的环境已就绪，可以进入自主研究模式。
@@ -54,9 +86,11 @@ Hi have a look at program.md and let's kick off a new experiment! let's do the s
 ```
 prepare.py      — 常量、数据准备 + 运行时工具（不可修改）
 train.py        — 模型、优化器、训练循环（代理修改此文件）
+mlx_train.py    — MLX 训练脚本（Apple Silicon）
 program.md      — 代理指令
 pyproject.toml  — 依赖项
-ml/             — 机器学习工具包（新增）
+ml/             — 机器学习工具包
+mlx/            — MLX 模型实现
 ```
 
 ## 设计决策
@@ -67,13 +101,19 @@ ml/             — 机器学习工具包（新增）
 
 ## 平台支持
 
-本代码支持三种设备类型，会自动检测：
+本项目支持多种训练后端：
 
-- **NVIDIA GPU (CUDA)** — 使用 Flash Attention 3 加速
-- **Apple Silicon (MPS)** — 使用 PyTorch SDPA
-- **CPU** — 通用支持
+| 后端 | 设备 | 使用方法 | 加速方式 |
+|------|------|----------|----------|
+| **CUDA** | NVIDIA GPU | `uv run train.py` | Flash Attention 3 |
+| **MLX** | Apple Silicon | `python mlx_train.py` | MLX 原生 |
+| **MPS** | Apple Silicon | `uv run train.py` (自动检测) | PyTorch SDPA |
+| **CPU** | 任意 | `uv run train.py` | 通用 |
 
-在 Apple Silicon Mac 上运行需要安装支持 MPS 的 PyTorch（1.12+）。
+### MLX vs MPS
+
+- **MLX**：Apple 官方框架，针对 Apple Silicon 优化，性能更好
+- **MPS**：PyTorch 后端，与现有 PyTorch 代码兼容
 
 由于在比 H100 小得多的计算平台上运行 autoresearch 的需求很大，这里有一些建议，供想要 fork 的人参考：
 
@@ -87,9 +127,13 @@ ml/             — 机器学习工具包（新增）
 
 建议的超参数请咨询你喜欢的编程代理，并粘贴这份指南以及完整源代码。
 
-## 新增功能：ml/ 工具包
+## 新增功能：ml/ 工具包和 MLX 支持
 
-本次更新新增了 `ml/` 目录，提供传统机器学习任务支持：
+本次更新新增了以下内容：
+
+### ml/ 工具包
+
+提供传统机器学习任务支持：
 
 ### 目录结构
 
@@ -121,6 +165,15 @@ train_loader = DataLoader(dataset, batch_size=32)
 
 model = MLP(input_dim=20, hidden_dims=[64, 32], output_dim=2)
 train_classification(model, train_loader, None, num_epochs=10)
+```
+
+### mlx/ 目录
+
+MLX 模型实现，用于 Apple Silicon 高效训练：
+
+```
+mlx/
+└── model.py    # GPT 模型（MLX 版本）
 ```
 
 ## 知名 Fork
