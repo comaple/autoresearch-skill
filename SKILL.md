@@ -55,11 +55,14 @@ uv run train.py  # 自动检测 MPS
 ├── mlx_train.py   # MLX 训练脚本
 ├── ml/            # 机器学习工具包
 │   ├── datasets/  # 数据集加载
-│   ├── models/   # 模型定义
-│   ├── metrics/  # 评估指标
-│   └── tasks/    # 训练任务
+│   ├── models/    # 模型定义 (MLP/CNN/LSTM)
+│   ├── metrics/   # 评估指标
+│   └── tasks/     # 训练任务
+├── mlx/           # MLX 模型实现
+│   └── model.py   # GPT 模型（MLX 版本）
 ├── program.md     # 代理指令
-└── pyproject.toml # 依赖
+├── pyproject.toml # 依赖
+└── SKILL.md       # OpenCode 技能文件
 ```
 
 ## 核心文件说明
