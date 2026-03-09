@@ -89,8 +89,7 @@ train.py        — 模型、优化器、训练循环（代理修改此文件）
 mlx_train.py    — MLX 训练脚本（Apple Silicon）
 program.md      — 代理指令
 pyproject.toml  — 依赖项
-ml/             — 机器学习工具包
-mlx/            — MLX 模型实现
+ml/             — 机器学习工具包（分类/回归/时序 + MLX 模型）
 ```
 
 ## 设计决策
