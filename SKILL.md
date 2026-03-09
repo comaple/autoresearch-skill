@@ -25,14 +25,12 @@ metadata:
 
 ## 快速开始
 
-### 向导模式
+### 向导模式（推荐）
 
 首次使用建议运行交互式向导：
 ```bash
 python wizard.py
 ```
-
-向导会一步步引导你完成环境检测、平台选择、依赖安装、数据准备和实验运行。
 
 ### NVIDIA GPU
 ```bash
@@ -62,6 +60,7 @@ uv run train.py  # 自动检测 MPS
 ├── prepare.py      # 数据准备、tokenizer（不可修改）
 ├── train.py        # PyTorch 训练脚本
 ├── mlx_train.py   # MLX 训练脚本
+├── wizard.py       # 交互式实验向导
 ├── ml/            # 机器学习工具包
 │   ├── datasets/  # 数据集加载
 │   ├── models/    # 模型定义 (MLP/CNN/LSTM)
