@@ -25,6 +25,15 @@ metadata:
 
 ## 快速开始
 
+### 向导模式
+
+首次使用建议运行交互式向导：
+```bash
+python wizard.py
+```
+
+向导会一步步引导你完成环境检测、平台选择、依赖安装、数据准备和实验运行。
+
 ### NVIDIA GPU
 ```bash
 uv sync
